@@ -3,19 +3,55 @@ import java.util.Scanner;
 
 public class Main {
 
+    // Default Admin Credentials
+    private static final String ADMIN_USER = "admin";
+    private static final String ADMIN_PASS = "admin123";
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("==========================================");
+        System.out.println("   EMPLOYEE MANAGEMENT SYSTEM - LOGIN");
+        System.out.println("==========================================");
+
+        // Authentication System (Maximum 3 attempts)
+        int attempts = 3;
+        boolean isAuthenticated = false;
+
+        while (attempts > 0) {
+            System.out.print("Enter Admin Username: ");
+            String username = sc.nextLine().trim();
+
+            System.out.print("Enter Admin Password: ");
+            String password = sc.nextLine().trim();
+
+            if (ADMIN_USER.equals(username) && ADMIN_PASS.equals(password)) {
+                isAuthenticated = true;
+                System.out.println("\n>> Login Successful! Welcome, Admin.");
+                break;
+            } else {
+                attempts--;
+                System.out.println(">> Invalid Credentials! Attempts left: " + attempts);
+            }
+        }
+
+        if (!isAuthenticated) {
+            System.out.println("\nAccess Denied! Exiting program...");
+            sc.close();
+            return;
+        }
+
+        // Main Menu
         while (true) {
             System.out.println("\n==========================================");
-            System.out.println("     EMPLOYEE MANAGEMENT SYSTEM");
+            System.out.println("       EMPLOYEE MANAGEMENT SYSTEM");
             System.out.println("==========================================");
             System.out.println("1. Add Employee");
             System.out.println("2. View All Employees");
             System.out.println("3. Search Employee (by ID / Name)");
             System.out.println("4. Update Employee Salary");
             System.out.println("5. Delete Employee");
-            System.out.println("6. Exit");
+            System.out.println("6. Logout & Exit");
             System.out.print("Enter your choice (1-6): ");
 
             int choice = getValidInt(sc);
@@ -37,7 +73,7 @@ public class Main {
                     deleteEmployee(sc);
                     break;
                 case 6:
-                    System.out.println("Exiting Application... Thank you!");
+                    System.out.println("Logged out successfully. Thank you!");
                     sc.close();
                     return;
                 default:
